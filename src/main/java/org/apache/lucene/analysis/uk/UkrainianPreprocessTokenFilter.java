@@ -11,7 +11,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 * A TokenFilter which replaces Unicode apostrophes with a straight one 
 * and removes stress character.
 */
-public class UkrainianPreprocessTokenFilter extends TokenFilter {
+public final class UkrainianPreprocessTokenFilter extends TokenFilter {
 	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 
 	
