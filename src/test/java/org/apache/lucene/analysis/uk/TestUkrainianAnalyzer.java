@@ -39,8 +39,22 @@ public class TestUkrainianAnalyzer extends BaseTokenStreamTestCase {
 
 	public void testReusableTokenStream() throws Exception {
 		Analyzer a = new UkrainianMorfologikAnalyzer();
-		assertAnalyzesTo(a, "Ця крапка у свою чергу рухається по колу.",
-				new String[] { "крапка", "черга", "рухатися", "кола", "коло", "коло", "кіл", "кіл" });
+		assertAnalyzesTo(a, "Ця п'єса у свою чергу рухається по колу.",
+				new String[] { "п'єса", "черга", "рухатися", "кола", "коло", "коло", "кіл", "кіл" });
+		a.close();
+	}
+
+	public void testSpecialCharsTokenStream() throws Exception {
+		Analyzer a = new UkrainianMorfologikAnalyzer();
+		assertAnalyzesTo(a, "Ця пʼєса, у сво́ю чергу, рухається по колу.",
+				new String[] { "п'єса", "черга", "рухатися", "кола", "коло", "коло", "кіл", "кіл" });
+		a.close();
+	}
+
+	public void testCapsTokenStream() throws Exception {
+		Analyzer a = new UkrainianMorfologikAnalyzer();
+		assertAnalyzesTo(a, "Цей Чайковський.",
+				new String[] { "чайковський" });
 		a.close();
 	}
 

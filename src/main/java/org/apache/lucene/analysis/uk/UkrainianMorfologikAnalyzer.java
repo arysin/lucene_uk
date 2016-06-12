@@ -34,6 +34,7 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.util.WordlistLoader;
+import org.apache.lucene.queryparser.flexible.core.util.StringUtils;
 import org.apache.lucene.util.IOUtils;
 
 import morfologik.stemming.Dictionary;
@@ -119,6 +120,7 @@ public final class UkrainianMorfologikAnalyzer extends StopwordAnalyzerBase {
   protected TokenStreamComponents createComponents(String fieldName) {
     final Tokenizer source = new StandardTokenizer();
     TokenStream result = new StandardFilter(source);
+    result = new UkrainianPreprocessTokenFilter(result);
     result = new LowerCaseFilter(result);
     result = new StopFilter(result, stopwords);
     if(!stemExclusionSet.isEmpty())
