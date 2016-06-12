@@ -29,7 +29,7 @@ import org.junit.Test;
 
 public class TestUkrainianAnalyzer extends BaseTokenStreamTestCase {
 
-	/** Check that UkrainianAnalyzer doesnt discard any numbers */
+	/** Check that UkrainianAnalyzer doesn't discard any numbers */
 	@Test
 	public void testDigitsInUkrainianCharset() throws IOException {
 		UkrainianMorfologikAnalyzer ra = new UkrainianMorfologikAnalyzer();
@@ -40,7 +40,7 @@ public class TestUkrainianAnalyzer extends BaseTokenStreamTestCase {
 	public void testReusableTokenStream() throws Exception {
 		Analyzer a = new UkrainianMorfologikAnalyzer();
 		assertAnalyzesTo(a, "Ця крапка у свою чергу рухається по колу.",
-				new String[] { "цей", "крапка", "свій", "черга", "рухатися", "кола", "коло", "коло", "кіл", "кіл" });
+				new String[] { "крапка", "черга", "рухатися", "кола", "коло", "коло", "кіл", "кіл" });
 		a.close();
 	}
 
