@@ -34,7 +34,6 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.util.WordlistLoader;
-import org.apache.lucene.queryparser.flexible.core.util.StringUtils;
 import org.apache.lucene.util.IOUtils;
 
 import morfologik.stemming.Dictionary;
