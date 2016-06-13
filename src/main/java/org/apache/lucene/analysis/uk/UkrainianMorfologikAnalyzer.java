@@ -24,6 +24,8 @@ import java.nio.charset.StandardCharsets;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.charfilter.MappingCharFilter;
+import org.apache.lucene.analysis.charfilter.NormalizeCharMap;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
@@ -103,6 +105,18 @@ public final class UkrainianMorfologikAnalyzer extends StopwordAnalyzerBase {
     this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(stemExclusionSet));
   }
 
+  @Override
+  protected Reader initReader(String fieldName, Reader reader) {
+	  NormalizeCharMap.Builder builder = new NormalizeCharMap.Builder();
+	  builder.add("\u2019", "'");
+	  builder.add("\u02BC", "'");
+	  builder.add("\u0301", "");
+	  NormalizeCharMap normMap = builder.build();
+
+	  reader = new MappingCharFilter(normMap, reader);
+	  return reader;
+  }
+
   /**
    * Creates a
    * {@link org.apache.lucene.analysis.Analyzer.TokenStreamComponents}
@@ -117,14 +131,14 @@ public final class UkrainianMorfologikAnalyzer extends StopwordAnalyzerBase {
    */
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
-    final Tokenizer source = new StandardTokenizer();
+    Tokenizer source = new StandardTokenizer();
     TokenStream result = new StandardFilter(source);
-    result = new UkrainianPreprocessTokenFilter(result);
     result = new LowerCaseFilter(result);
     result = new StopFilter(result, stopwords);
+
     if(!stemExclusionSet.isEmpty())
       result = new SetKeywordMarkerFilter(result, stemExclusionSet);
-//    result = new UkrainianStemFilter(result);
+
     result = new MorfologikFilter(result, getDictionary());
     return new TokenStreamComponents(source, result);
   }
